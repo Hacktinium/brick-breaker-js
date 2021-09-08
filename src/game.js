@@ -11,25 +11,31 @@ content.appendChild(canvas);
 
 const context = canvas.getContext('2d');
 
-function bg(ctx) {
+function drawBackground(ctx) {
     ctx.fillStyle = 'indianred';
-    ctx.fillRect(0,0, WIDTH, HEIGHT);
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
 }
 
-function drawCircle(ctx, t) { 
+function drawCircle(ctx, x, y, r) {
     ctx.fillStyle = 'white';
     ctx.beginPath();
-    ctx.arc(
-        WIDTH / 2 + RADIUS * Math.cos(t/ 50), 
-        HEIGHT / 2 +  RADIUS * Math.sin(t/ 50), 
-        10, 0, 2 * Math.PI)
+    ctx.arc(x, y, r, 0, 2 * Math.PI)
     ctx.fill();
 }
 
-function draw(time){
-    bg(context);
-    drawCircle(context, time);
-    requestAnimationFrame(draw);
+function drawLoop(time) {
+    draw(context, time);
+    requestAnimationFrame(drawLoop);
 }
 
-draw();
+function draw(ctx, t) {
+    drawBackground(ctx);
+    drawCircle(
+        ctx,
+        WIDTH / 2 + RADIUS * Math.cos(t / 100),
+        HEIGHT / 2 + RADIUS * Math.sin(t / 100),
+        10
+    );
+}
+
+drawLoop();
